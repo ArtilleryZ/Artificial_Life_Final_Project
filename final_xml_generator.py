@@ -1,12 +1,14 @@
 import numpy as np
 
 def generate_environment():
+    #Get the initial environment into xml
     return [
         '    <light diffuse=".5 .5 .5" pos="0 0 3" dir="0 0 -1"/>',
         '    <geom type="plane" size="5 5 0.1" rgba=".9 0.9 0.9 1"/>'
     ]
 
 def generate_main_body():
+    #generate the main body randomly, it will only run once
     x_size = np.random.uniform(0.18, 0.22)
     y_size = np.random.uniform(0.13, 0.17)
     z_size = np.random.uniform(0.08, 0.12)
@@ -19,32 +21,35 @@ def generate_main_body():
     ], (x_size, y_size, z_size)
 
 def generate_legs(side, main_body_sizes):
+    #generate the legs and it will offset by y-direction so that it is adjunct
+    #to the main body on exact position
     x_size, y_size, z_size = main_body_sizes
     
-    # Sizes for leg1
-    leg1_x_size = np.random.uniform(0.15, 0.25)
-    leg1_y_size = np.random.uniform(0.15, 0.25)
-    leg1_z_size = np.random.uniform(0.05, 0.15)
+    #random the leg1 size
+    leg1_x_size = np.random.uniform(0.3, 0.5)
+    leg1_y_size = np.random.uniform(0.02, 0.15)
+    leg1_z_size = np.random.uniform(0.02, 0.15)
    
-    # Corrected position calculation for leg1
+    #set the exact leg1 location, y is exact and x/z are random
     temp1x = x_size+leg1_x_size
     temp1z = z_size+leg1_z_size
     leg1_x_pos = np.random.uniform(-temp1x, temp1x)
     leg1_z_pos = np.random.uniform(-temp1z, temp1z)
     leg1_y_pos = (y_size + leg1_y_size) if side == 'left' else -(y_size + leg1_y_size)
    
-    # Sizes for leg2
-    leg2_x_size = np.random.uniform(0.15, 0.25)
-    leg2_y_size = np.random.uniform(0.15, 0.25)
-    leg2_z_size = np.random.uniform(0.05, 0.15)
+    #random the leg2 size
+    leg2_x_size = np.random.uniform(0.3, 0.5)
+    leg2_y_size = np.random.uniform(0.02, 0.15)
+    leg2_z_size = np.random.uniform(0.02, 0.15)
    
-    # Explicit position calculation for leg2
+    #set the exact leg2 location, y is exact and x/z are random
     temp2x = leg1_x_size+leg2_x_size
     temp2z = leg1_z_size+leg2_z_size
     leg2_x_pos = np.random.uniform(-temp2x,temp2x)  # Maintain alignment in the x direction with leg1
     leg2_z_pos = np.random.uniform(-temp2z,temp2z)  # Maintain alignment in the z direction with leg1
     leg2_y_pos = leg1_y_size + leg2_y_size   if side == 'left' else -(leg1_y_size + leg2_y_size)
     
+    #sort them into xml
     xml_lines = [
         f'        <body name="{side}_leg1" pos="{leg1_x_pos} {leg1_y_pos} {leg1_z_pos}">',
         f'            <joint name="{side}_leg1_joint" type="hinge" axis="0 1 0" pos="0 0 0"/>',
@@ -59,6 +64,7 @@ def generate_legs(side, main_body_sizes):
     return xml_lines
 
 def generate_robot_xml(filename):
+    #sort all into xml
     xml_lines = ['<mujoco>', '    <worldbody>']
     xml_lines.extend(generate_environment())
     main_body_xml, main_body_sizes = generate_main_body()
@@ -67,7 +73,7 @@ def generate_robot_xml(filename):
     for side in ['left', 'right']:
         xml_lines.extend(generate_legs(side, main_body_sizes))
     
-    # Adding sensor section
+    #add sensors
     xml_lines.extend([
         '    </body>',
         '    </worldbody>',
@@ -78,6 +84,7 @@ def generate_robot_xml(filename):
         '    <actuator>'
     ])
     
+    #add position actuator
     for side in ['left', 'right']:
         xml_lines.append(f'        <position joint="{side}_leg1_joint" kp="10"/>')
         xml_lines.append(f'        <position joint="{side}_leg2_joint" kp="10"/>')
@@ -89,4 +96,5 @@ def generate_robot_xml(filename):
         file.write('\n'.join(xml_lines))
 
 if __name__ == "__main__":
+    #generate the xml
     generate_robot_xml('final.xml')
