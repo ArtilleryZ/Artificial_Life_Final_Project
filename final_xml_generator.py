@@ -7,11 +7,9 @@ def generate_environment():
         '    <geom type="plane" size="5 5 0.1" rgba=".9 0.9 0.9 1"/>'
     ]
 
-def generate_main_body():
+def generate_main_body(x_size, y_size, z_size):
     #generate the main body randomly, it will only run once
-    x_size = np.random.uniform(0.18, 0.22)
-    y_size = np.random.uniform(0.13, 0.17)
-    z_size = np.random.uniform(0.08, 0.12)
+    
     return [
         '    <body name="main body" pos="0 0 .2">',
         '        <joint type="free"/>',
@@ -20,15 +18,12 @@ def generate_main_body():
         '        <site name="robot_center" pos="0 0 0" size="0.01"/>',
     ], (x_size, y_size, z_size)
 
-def generate_legs(side, main_body_sizes):
+def generate_legs(side, main_body_sizes, leg1_x_size, leg1_y_size, leg1_z_size,
+                                         leg2_x_size, leg2_y_size, leg2_z_size):
     #generate the legs and it will offset by y-direction so that it is adjunct
     #to the main body on exact position
     x_size, y_size, z_size = main_body_sizes
     
-    #random the leg1 size
-    leg1_x_size = np.random.uniform(0.3, 0.5)
-    leg1_y_size = np.random.uniform(0.02, 0.15)
-    leg1_z_size = np.random.uniform(0.02, 0.15)
    
     #set the exact leg1 location, y is exact and x/z are random
     temp1x = x_size+leg1_x_size
@@ -37,11 +32,7 @@ def generate_legs(side, main_body_sizes):
     leg1_z_pos = np.random.uniform(-temp1z, temp1z)
     leg1_y_pos = (y_size + leg1_y_size) if side == 'left' else -(y_size + leg1_y_size)
    
-    #random the leg2 size
-    leg2_x_size = np.random.uniform(0.3, 0.5)
-    leg2_y_size = np.random.uniform(0.02, 0.15)
-    leg2_z_size = np.random.uniform(0.02, 0.15)
-   
+    
     #set the exact leg2 location, y is exact and x/z are random
     temp2x = leg1_x_size+leg2_x_size
     temp2z = leg1_z_size+leg2_z_size
@@ -63,15 +54,26 @@ def generate_legs(side, main_body_sizes):
     
     return xml_lines
 
-def generate_robot_xml(filename):
+def generate_robot_xml(filename,
+                       x_size = np.random.uniform(0.18, 0.22), 
+                       y_size = np.random.uniform(0.13, 0.17), 
+                       z_size = np.random.uniform(0.08, 0.12),
+                       leg1_x_size = np.random.uniform(0.3, 0.5),
+                       leg1_y_size = np.random.uniform(0.02, 0.15),
+                       leg1_z_size = np.random.uniform(0.02, 0.15),
+                       leg2_x_size = np.random.uniform(0.3, 0.5),
+                       leg2_y_size = np.random.uniform(0.02, 0.15),
+                       leg2_z_size = np.random.uniform(0.02, 0.15)):
+    
     #sort all into xml
     xml_lines = ['<mujoco>', '    <worldbody>']
     xml_lines.extend(generate_environment())
-    main_body_xml, main_body_sizes = generate_main_body()
+    main_body_xml, main_body_sizes = generate_main_body(x_size, y_size, z_size)
     xml_lines.extend(main_body_xml)
     
     for side in ['left', 'right']:
-        xml_lines.extend(generate_legs(side, main_body_sizes))
+        xml_lines.extend(generate_legs(side, main_body_sizes, leg1_x_size, leg1_y_size, leg1_z_size,
+                                                              leg2_x_size, leg2_y_size, leg2_z_size))
     
     #add sensors
     xml_lines.extend([
