@@ -19,25 +19,27 @@ def generate_main_body(x_size, y_size, z_size):
     ], (x_size, y_size, z_size)
 
 def generate_legs(side, main_body_sizes, leg1_x_size, leg1_y_size, leg1_z_size,
-                                         leg2_x_size, leg2_y_size, leg2_z_size):
+                                         leg2_x_size, leg2_y_size, leg2_z_size,
+                                         leg1_x_pos , leg1_z_pos,
+                                         leg2_x_pos , leg2_z_pos):
     #generate the legs and it will offset by y-direction so that it is adjunct
     #to the main body on exact position
     x_size, y_size, z_size = main_body_sizes
     
    
     #set the exact leg1 location, y is exact and x/z are random
-    temp1x = x_size+leg1_x_size
-    temp1z = z_size+leg1_z_size
-    leg1_x_pos = np.random.uniform(-temp1x, temp1x)
-    leg1_z_pos = np.random.uniform(-temp1z, temp1z)
+    # temp1x = x_size+leg1_x_size
+    # temp1z = z_size+leg1_z_size
+    # leg1_x_pos = np.random.uniform(-temp1x, temp1x)
+    # leg1_z_pos = np.random.uniform(-temp1z, temp1z)
     leg1_y_pos = (y_size + leg1_y_size) if side == 'left' else -(y_size + leg1_y_size)
    
     
     #set the exact leg2 location, y is exact and x/z are random
-    temp2x = leg1_x_size+leg2_x_size
-    temp2z = leg1_z_size+leg2_z_size
-    leg2_x_pos = np.random.uniform(-temp2x,temp2x)  # Maintain alignment in the x direction with leg1
-    leg2_z_pos = np.random.uniform(-temp2z,temp2z)  # Maintain alignment in the z direction with leg1
+    # temp2x = leg1_x_size+leg2_x_size
+    # temp2z = leg1_z_size+leg2_z_size
+    # leg2_x_pos = np.random.uniform(-temp2x,temp2x)  # Maintain alignment in the x direction with leg1
+    # leg2_z_pos = np.random.uniform(-temp2z,temp2z)  # Maintain alignment in the z direction with leg1
     leg2_y_pos = leg1_y_size + leg2_y_size   if side == 'left' else -(leg1_y_size + leg2_y_size)
     
     #sort them into xml
@@ -55,25 +57,38 @@ def generate_legs(side, main_body_sizes, leg1_x_size, leg1_y_size, leg1_z_size,
     return xml_lines
 
 def generate_robot_xml(filename,
-                       x_size = np.random.uniform(0.18, 0.22), 
-                       y_size = np.random.uniform(0.13, 0.17), 
-                       z_size = np.random.uniform(0.08, 0.12),
-                       leg1_x_size = np.random.uniform(0.3, 0.5),
-                       leg1_y_size = np.random.uniform(0.02, 0.15),
-                       leg1_z_size = np.random.uniform(0.02, 0.15),
-                       leg2_x_size = np.random.uniform(0.3, 0.5),
-                       leg2_y_size = np.random.uniform(0.02, 0.15),
-                       leg2_z_size = np.random.uniform(0.02, 0.15)):
+                       x_size, 
+                       y_size, 
+                       z_size,
+                       
+                       leg1_x_size_l, leg1_y_size_l, leg1_z_size_l,
+                       leg2_x_size_l, leg2_y_size_l, leg2_z_size_l,
+                       leg1_x_pos_l , leg1_z_pos_l,
+                       leg2_x_pos_l , leg2_z_pos_l,
+                        
+                       leg1_x_size_r, leg1_y_size_r, leg1_z_size_r,
+                       leg2_x_size_r, leg2_y_size_r, leg2_z_size_r,
+                       leg1_x_pos_r , leg1_z_pos_r,
+                       leg2_x_pos_r , leg2_z_pos_r):
     
     #sort all into xml
     xml_lines = ['<mujoco>', '    <worldbody>']
     xml_lines.extend(generate_environment())
+    
+    
     main_body_xml, main_body_sizes = generate_main_body(x_size, y_size, z_size)
     xml_lines.extend(main_body_xml)
     
-    for side in ['left', 'right']:
-        xml_lines.extend(generate_legs(side, main_body_sizes, leg1_x_size, leg1_y_size, leg1_z_size,
-                                                              leg2_x_size, leg2_y_size, leg2_z_size))
+
+    xml_lines.extend(generate_legs('left', main_body_sizes, leg1_x_size_l, leg1_y_size_l, leg1_z_size_l,
+                                                            leg2_x_size_l, leg2_y_size_l, leg2_z_size_l,
+                                                            leg1_x_pos_l , leg1_z_pos_l,
+                                                            leg2_x_pos_l , leg2_z_pos_l))
+    
+    xml_lines.extend(generate_legs('right', main_body_sizes, leg1_x_size_r, leg1_y_size_r, leg1_z_size_r,
+                                                             leg2_x_size_r, leg2_y_size_r, leg2_z_size_r,
+                                                             leg1_x_pos_r , leg1_z_pos_r,
+                                                             leg2_x_pos_r , leg2_z_pos_r))
     
     #add sensors
     xml_lines.extend([
