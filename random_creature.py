@@ -5,7 +5,7 @@ import time
 from mujoco import viewer
 import dm_control.mujoco as dm
 
-import final_xml_generator
+from xml_generator import generate_robot_xml
 
 max_iter = 5;
 
@@ -54,20 +54,20 @@ for iter in range(max_iter):
     
     filename = "xml/final"
     filename = filename + str(iter+1) + ".xml"
-    xml = final_xml_generator.generate_robot_xml(filename,
-                                                 x_size, 
-                                                 y_size, 
-                                                 z_size,
-                                                 
-                                                 leg1_x_size_l, leg1_y_size_l, leg1_z_size_l,
-                                                 leg2_x_size_l, leg2_y_size_l, leg2_z_size_l,
-                                                 leg1_x_pos_l , leg1_z_pos_l,
-                                                 leg2_x_pos_l , leg2_z_pos_l,
-                                                  
-                                                 leg1_x_size_r, leg1_y_size_r, leg1_z_size_r,
-                                                 leg2_x_size_r, leg2_y_size_r, leg2_z_size_r,
-                                                 leg1_x_pos_r , leg1_z_pos_r,
-                                                 leg2_x_pos_r , leg2_z_pos_r)
+    xml = generate_robot_xml(filename,
+                             x_size, 
+                             y_size, 
+                             z_size,
+                            
+                             leg1_x_size_l, leg1_y_size_l, leg1_z_size_l,
+                             leg2_x_size_l, leg2_y_size_l, leg2_z_size_l,
+                             leg1_x_pos_l , leg1_z_pos_l,
+                             leg2_x_pos_l , leg2_z_pos_l,
+                             
+                             leg1_x_size_r, leg1_y_size_r, leg1_z_size_r,
+                             leg2_x_size_r, leg2_y_size_r, leg2_z_size_r,
+                             leg1_x_pos_r , leg1_z_pos_r,
+                             leg2_x_pos_r , leg2_z_pos_r)
     
     m = mujoco.MjModel.from_xml_path(filename)
     

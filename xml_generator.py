@@ -111,7 +111,3 @@ def generate_robot_xml(filename,
 
     with open(filename, 'w') as file:
         file.write('\n'.join(xml_lines))
-
-if __name__ == "__main__":
-    #generate the xml
-    generate_robot_xml('final.xml')
