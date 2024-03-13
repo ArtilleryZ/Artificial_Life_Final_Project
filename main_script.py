@@ -11,30 +11,34 @@ from xml_generator import generate_robot_xml
 from helper_function import data_initialization
 from helper_function import parameter_boundary
 
-class SimpleNeuralNetwork(nn.Module):
+
+
+class four_layer_NN(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim):
-        super(SimpleNeuralNetwork, self).__init__()
+        
+        super(four_layer_NN, self).__init__()
         self.layer1 = nn.Linear(input_dim, hidden_dim)
         self.layer2 = nn.Linear(hidden_dim, hidden_dim)
         self.layer3 = nn.Linear(hidden_dim, hidden_dim)
-        self.layer4 = nn.Linear(hidden_dim, hidden_dim)  # Added fourth hidden layer
+        self.layer4 = nn.Linear(hidden_dim, hidden_dim)
         self.output_layer = nn.Linear(hidden_dim, output_dim)
         self.relu = nn.ReLU()
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self, x):
         x = self.relu(self.layer1(x))
         x = self.relu(self.layer2(x))
         x = self.relu(self.layer3(x))
-        x = self.relu(self.layer4(x))  # Passing through the fourth hidden layer
+        x = self.relu(self.layer4(x)) 
         x = self.output_layer(x)
         return x
 
-def apply_adjustments(params, adjustments, learning_rate):
-    new_params = params + learning_rate * adjustments
-    new_params = np.clip(new_params, a_min=lower_bounds, a_max=upper_bounds)
-    return new_params
+def apply_adjustment(parameter, adjustment, learning_rate):
+    new = parameter + learning_rate * adjustment
+    new = np.clip(new, a_min=lower_bounds, a_max=upper_bounds)
+    return new
 
-def simulate_robot(num_iter, x_size, y_size, z_size, parameters):
+def simulate_robot(num_iter, x_size, y_size, z_size, parameter):
     [leg1_x_pos_l, leg1_z_pos_l,
      leg1_x_size_l, leg1_y_size_l, leg1_z_size_l,
     
@@ -45,7 +49,7 @@ def simulate_robot(num_iter, x_size, y_size, z_size, parameters):
      leg1_x_size_r, leg1_y_size_r, leg1_z_size_r,
     
      leg2_x_pos_r, leg2_z_pos_r,
-     leg2_x_size_r, leg2_y_size_r, leg2_z_size_r] = parameters
+     leg2_x_size_r, leg2_y_size_r, leg2_z_size_r] = parameter
     
     
     filename = "xml/final"
@@ -69,7 +73,6 @@ def simulate_robot(num_iter, x_size, y_size, z_size, parameters):
     
     d = mujoco.MjData(m)
     
-    
     height = []
     
     viewer = mujoco_viewer.MujocoViewer(m,d)
@@ -77,7 +80,6 @@ def simulate_robot(num_iter, x_size, y_size, z_size, parameters):
     for j in range(len(d.ctrl)):
         d.ctrl[j] = 5
     time.sleep(1)
-    
     
     for i in range(1000):
         
@@ -108,42 +110,48 @@ def simulate_robot(num_iter, x_size, y_size, z_size, parameters):
     
     combined_data = [robot_geometry + max_height]
     
+    output_filename = "data/maxheight"
     
-    with open('maxheight.csv', 'ab') as f:
+    output_filename = output_filename + "_x_" + str(round(x_size,3)) + "_y_" + str(round(y_size,3)) + "_z_" + str(round(z_size,3)) + ".csv"
+    
+    
+    with open(output_filename, 'ab') as f:
         np.savetxt(f, combined_data, delimiter=',')
         
     return max_height
 
-# Neural network initialization and training process...
-# Please ensure correct implementation of data_initialization and parameter_boundary functions.
 
-learning_rate = 0.05  # Adjust this based on your observations on optimization performance
+max_iterations = 500
+learning_rate = 0.05
+input_dim = 20
+hidden_dim = 100
+output_dim = 20
+lr_NN = 0.005
 
-nn_model = SimpleNeuralNetwork(input_dim=20, hidden_dim=100, output_dim=20)
+nn_model = four_layer_NN(input_dim, hidden_dim, output_dim)
 
 robot_init = data_initialization()
 x_size, y_size, z_size = robot_init[:3]
-parameters = robot_init[3:]
+parameter = robot_init[3:]
 
 lower_bounds, upper_bounds = parameter_boundary()
 
-optimizer = torch.optim.Adam(nn_model.parameters(), lr=0.005)
+optimizer = torch.optim.Adam(nn_model.parameter(), lr_NN)
 
-max_iterations = 10
 
-for iteration in range(max_iterations):
-    parameters_tensor = torch.tensor(parameters, dtype=torch.float32).unsqueeze(0)
-    adjustments = nn_model(parameters_tensor).squeeze().detach().numpy()
-    parameters = apply_adjustments(parameters, adjustments, learning_rate)
+for itr in range(max_iterations):
+    parameter_tensor = torch.tensor(parameter, dtype=torch.float32).unsqueeze(0)
+    adjustment = nn_model(parameter_tensor).squeeze().detach().numpy()
+    parameter = apply_adjustment(parameter, adjustment, learning_rate)
 
-    max_height = simulate_robot(iteration, x_size, y_size, z_size, parameters)
-    if max_height is not None:  # Ensure max_height is not None
+    max_height = simulate_robot(itr, x_size, y_size, z_size, parameter)
+    if max_height is not None:
         loss = -torch.tensor(max_height, dtype=torch.float, requires_grad=True)
 
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
 
-        print(f"Iteration {iteration+1}, Loss: {loss.item()}, Max Height: {max_height}")
+        print(f"Generation {itr+1}, Loss: {loss.item()}, Max Height: {max_height}")
     else:
-        print("Error: simulate_robot returned None for max_height.")
+        print("Error: simulator broke at this generation.")
