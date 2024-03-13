@@ -4,23 +4,23 @@
     <geom type="plane" size="5 5 0.1" rgba=".9 0.9 0.9 1"/>
     <body name="main body" pos="0 0 .2">
         <joint type="free"/>
-        <geom type="box" size="0.21177953004201347 0.13728901900239493 0.1119007409973764" rgba="0 0 1 1" mass="1"/>
+        <geom type="box" size="0.216828890437737 0.14695411359216412 0.08457970743722419" rgba="0 0 1 1" mass="1"/>
         <site name="marker" pos="0 0 0" size="0.05"/>
         <site name="robot_center" pos="0 0 0" size="0.01"/>
-        <body name="left_leg1" pos="-0.29140099895987487 0.2795706280449286 0.037458360599251256">
+        <body name="left_leg1" pos="0.13844076517923037 0.2969541135921641 0.019824092319155696">
             <joint name="left_leg1_joint" type="hinge" axis="0 1 0" pos="0 0 0"/>
-            <geom type="box" size="0.4340307100459109 0.14228160904253365 0.15" rgba="0 .5 0 1" mass="1"/>
-            <body name="left_leg2" pos="0.12637727498976825 0.21668021788608344 0.26846093993849585">
+            <geom type="box" size="0.3962342122402767 0.15 0.15" rgba="0 .5 0 1" mass="2"/>
+            <body name="left_leg2" pos="0.41143331920910614 0.16999999999999998 -0.04">
                 <joint name="left_leg2_joint" type="hinge" axis="0 1 0" pos="0 0 0"/>
-                <geom type="box" size="0.3661026042507143 0.0743986088435498 0.02" rgba="0 .6 0 1" mass="1"/>
+                <geom type="box" size="0.3 0.02 0.0926692243433466" rgba="0 .6 0 1" mass="2"/>
             </body>
         </body>
-        <body name="right_leg1" pos="-0.28311367502566376 -0.15728901900239492 0.018050967495340325">
+        <body name="right_leg1" pos="-0.34552469416460296 -0.1669541135921641 0.06614123853134159">
             <joint name="right_leg1_joint" type="hinge" axis="0 1 0" pos="0 0 0"/>
-            <geom type="box" size="0.5 0.02 0.02" rgba="0 .5 0 1" mass="1"/>
-            <body name="right_leg2" pos="0.6249499301954217 -0.16999999999999998 0.10787028287537395">
+            <geom type="box" size="0.3 0.02 0.10630627067306596" rgba="0 .5 0 1" mass="2"/>
+            <body name="right_leg2" pos="-0.6 -0.10202403665833658 -0.0022303253989699357">
                 <joint name="right_leg2_joint" type="hinge" axis="0 1 0" pos="0 0 0"/>
-                <geom type="box" size="0.3273503283703928 0.15 0.14374495080940572" rgba="0 .6 0 1" mass="1"/>
+                <geom type="box" size="0.43407622992353806 0.08202403665833657 0.0982926926651318" rgba="0 .6 0 1" mass="2"/>
             </body>
         </body>
     </body>
