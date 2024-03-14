@@ -13,16 +13,17 @@ from helper_function import data_initialization
 from helper_function import parameter_boundary
 
 
-max_iterations = 5
+max_iterations = 200
 pos_lr = 0.05
 size_lr = 0.1
-learning_rate = 0.05
+lr_NN = 0.005
+update_ratio = 0.2
+
+
+
 input_dim = 20
 hidden_dim = 200
 output_dim = 20
-lr_NN = 0.005
-
-
 
 class four_layer_NN(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim):
@@ -45,20 +46,17 @@ class four_layer_NN(nn.Module):
         return x
 
 
-
-
 def apply_adjustment(parameter, adjustment, pos_lr, size_lr, update_ratio=0.5):
     num_params = len(parameter)
     num_updates = int(update_ratio * num_params)
-    update_indices = np.random.choice(num_params, num_updates, replace=False)
+    update_idx = np.random.choice(num_params, num_updates, replace=False)
     
-    pos_indices = [0, 1, 5, 6, 10, 11, 15, 16]
-    size_indices = set(range(num_params)) - set(pos_indices)
+    pos_idx = [0, 1, 5, 6, 10, 11, 15, 16]
     
     new = parameter.copy()
     
-    for i in update_indices:
-        if i in pos_indices:
+    for i in update_idx:
+        if i in pos_idx:
             lr = pos_lr
         else:
             lr = size_lr
@@ -111,7 +109,7 @@ def simulate_robot(num_iter, x_size, y_size, z_size, parameter):
         d.ctrl[j] = 5
     time.sleep(1)
     
-    for i in range(1200):
+    for i in range(800):
         
         height.append(d.sensordata[2])
         
@@ -171,7 +169,7 @@ optimizer = torch.optim.Adam(nn_model.parameters(), lr_NN)
 for itr in range(max_iterations):
     parameter_tensor = torch.tensor(parameter, dtype=torch.float32).unsqueeze(0)
     adjustment = nn_model(parameter_tensor).squeeze().detach().numpy()
-    new = apply_adjustment(parameter, adjustment, pos_lr, size_lr, 0.2)
+    new = apply_adjustment(parameter, adjustment, pos_lr, size_lr, update_ratio)
     
 
     max_height = simulate_robot(itr, x_size, y_size, z_size, new)
@@ -182,20 +180,18 @@ for itr in range(max_iterations):
         continue
     
     if max_height[0] > best_height:
-        print(f"Generation {itr+1}, Height Improved: {max_height}")
+        print(f"Generation {itr}, Height Improved: {max_height}")
         best_height = max_height[0]
         best_parameter = copy.deepcopy(new)
         parameter = best_parameter
         
-
         loss = torch.tensor([max_height[0]], dtype=torch.float, requires_grad=True)
-
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
     else:
         parameter = best_parameter
-        print(f"Generation {itr+1}, No Improvement. Reverting to previous best height")
+        print(f"Generation {itr}, No Improvement. Reverting")
         
         
     final_data = [best_parameter + best_height]

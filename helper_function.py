@@ -6,17 +6,17 @@ def data_initialization():
     y_size = np.random.uniform(0.13, 0.17)
     z_size = np.random.uniform(0.08, 0.12)
 
-    leg1_x_size_l = np.random.uniform(0.3, 0.5)
+    leg1_x_size_l = np.random.uniform(0.2, 0.6)
     leg1_y_size_l = np.random.uniform(0.02, 0.15)
     leg1_z_size_l = np.random.uniform(0.02, 0.15)
-    leg2_x_size_l = np.random.uniform(0.3, 0.5)
+    leg2_x_size_l = np.random.uniform(0.2, 0.6)
     leg2_y_size_l = np.random.uniform(0.02, 0.15)
     leg2_z_size_l = np.random.uniform(0.02, 0.15)
 
-    leg1_x_size_r = np.random.uniform(0.3, 0.5)
+    leg1_x_size_r = np.random.uniform(0.2, 0.6)
     leg1_y_size_r = np.random.uniform(0.02, 0.15)
     leg1_z_size_r = np.random.uniform(0.02, 0.15)
-    leg2_x_size_r = np.random.uniform(0.3, 0.5)
+    leg2_x_size_r = np.random.uniform(0.2, 0.6)
     leg2_y_size_r = np.random.uniform(0.02, 0.15)
     leg2_z_size_r = np.random.uniform(0.02, 0.15)
 
@@ -61,7 +61,7 @@ def parameter_boundary():
     y_size_lower, y_size_upper = 0.13, 0.17
     z_size_lower, z_size_upper = 0.08, 0.12
     
-    leg_size_x_lower, leg_size_x_upper = 0.3, 0.5
+    leg_size_x_lower, leg_size_x_upper = 0.2, 0.6
     leg_size_y_lower, leg_size_y_upper = 0.02, 0.15
     leg_size_z_lower, leg_size_z_upper = 0.02, 0.15
     
