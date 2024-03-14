@@ -198,8 +198,8 @@ for itr in range(max_iterations):
         continue
     
     if max_height[0]-0.02 > best_height:
-        # print(f"Generation {itr}, Height Improved: {max_height}")
-        print(f"Generation {itr}, Height: {max_height}")
+        print(f"Generation {itr}, Height Improved: {max_height}")
+        # print(f"Generation {itr}, Height: {max_height}")
         best_height = max_height[0]
         best_parameter = copy.deepcopy(new)
         stuck_count = 0
@@ -210,8 +210,8 @@ for itr in range(max_iterations):
         optimizer.step()
     else:
         stuck_count += 1
-        # print(f"Generation {itr}, No Improvement. Reverting")
-        print(f"Generation {itr}, Height: {max_height}")
+        print(f"Generation {itr}, No Improvement. Height: {max_height}")
+        # print(f"Generation {itr}, Height: {max_height}")
     
     parameter = best_parameter
         

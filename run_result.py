@@ -24,7 +24,7 @@ def run_simulation(parameters, filename_suffix):
     leg1_x_pos_r, leg1_z_pos_r, leg1_x_size_r, leg1_y_size_r, leg1_z_size_r = parameters[13:18]
     leg2_x_pos_r, leg2_z_pos_r, leg2_x_size_r, leg2_y_size_r, leg2_z_size_r = parameters[18:23]
     
-    filename = "sample/maxheight_{filename_suffix}.xml"
+    filename = "sample/maxheight_"+ str(filename_suffix) + ".xml"
     generate_robot_xml(filename,
                        x_size, y_size, z_size,
                        leg1_x_size_l, leg1_y_size_l, leg1_z_size_l,
