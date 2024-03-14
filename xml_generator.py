@@ -46,10 +46,10 @@ def generate_legs(side, main_body_sizes, leg1_x_size, leg1_y_size, leg1_z_size,
     xml_lines = [
         f'        <body name="{side}_leg1" pos="{leg1_x_pos} {leg1_y_pos} {leg1_z_pos}">',
         f'            <joint name="{side}_leg1_joint" type="hinge" axis="0 1 0" pos="0 0 0"/>',
-        f'            <geom type="box" size="{leg1_x_size} {leg1_y_size} {leg1_z_size}" rgba="0 .5 0 1" mass="2"/>',
+        f'            <geom type="box" size="{leg1_x_size} {leg1_y_size} {leg1_z_size}" rgba="0 .5 0 1" mass="1"/>',
         f'            <body name="{side}_leg2" pos="{leg2_x_pos} {leg2_y_pos} {leg2_z_pos}">',  # Nested within leg1
         f'                <joint name="{side}_leg2_joint" type="hinge" axis="0 1 0" pos="0 0 0"/>',
-        f'                <geom type="box" size="{leg2_x_size} {leg2_y_size} {leg2_z_size}" rgba="0 .6 0 1" mass="2"/>',
+        f'                <geom type="box" size="{leg2_x_size} {leg2_y_size} {leg2_z_size}" rgba="0 .6 0 1" mass="1"/>',
         '            </body>',
         '        </body>'
     ]
