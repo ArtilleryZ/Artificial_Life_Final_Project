@@ -28,10 +28,10 @@ There are 3 folders in the directory, and they are called:
   
 There is a block for setting the parameters of the algorithm and performance in the `main_script.py`  
 `max_iterations = 500`, control the total iteration numbers  
-`pos_lr = 0.02`, control the adjustment steps to position while having the Neural Network running    
-`size_lr = 0.05`  controls the adjustment steps to size while having the Neural Network running  
+`pos_lr = 0.05`, control the adjustment steps to position while having the Neural Network running    
+`size_lr = 0.1`  controls the adjustment steps to size while having the Neural Network running  
 `lr_NN = 0.005`  learning rate of the Neural Network  
-`update_ratio = 0.25`  The portion of the parameters that will be changed during one iteration  
+`update_ratio = 0.3`  The portion of the parameters that will be changed during one iteration  
 
 To run the final result in `run_result.py`, please change the name of the csv file according to the latest file in the `data` folder  
 It would be something like `data/maxheight_x_0.186_y_0.16_z_0.089.csv`
