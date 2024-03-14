@@ -9,7 +9,7 @@ Unlike projects from last year, which use pybullet and pyrosim as their frame, t
 Without a well-structured frame, it is a little bit tricky to have the code implemented, and the result would probably not meet the quality of projects from last year.  
   
 Instead of using a Genetic algorithm, which is specially designed for evolution, or Reinforcement learning, which can use large training time for better results, I am using a 4 hidden-layer neural network to have the algorithm evolved.  
-Since it is not specifically designed for evolution, the result will largely depend on tunning and initialization status.
+Since it is not specifically designed for evolution, the result will largely depend on tunning and initialization status. Additionally, it will get stuck in the local minima, which will stop the evolution process.
 
 # Sample Result
 
@@ -103,3 +103,5 @@ For parameter update, there is a function called `apply_adjustment`, which has 3
   
 When the new generation doesn't get height improved, the parameters will revert to the when the best height has been achieved by far. It will output if the height is improved or not in the console.  
 Combined with the max height data, it will be stored in a csv file called `maxheight.csv`, with the robot's x, y, and z dimensions included in this name. It will be stored in the `data` directory.
+
+Please notice that there is a possibility that it will get stuck in the local minima and waste many iterations on not improving.
