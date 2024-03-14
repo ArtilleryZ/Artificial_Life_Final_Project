@@ -103,11 +103,15 @@ To implement the neural network, I use the library of torch and torch.nn, which 
   
 The network is a 4 hidden-layer network, with the activation function all using ReLU. The input and output sizes are both 20 according to the robot's parameters. The middle layer's size is 200.  
 The parameters that are going to change are only the size and position of the legs, there is no main body involved.  
-For parameter update, there is a function called `apply_adjustment`, which has 3 main parameters: `pos_lr`, `size_lr`, and `update_ratio`. Due to the change and boundary of position and size are different, they have different step tunning. The update ratio controls the portion of the 20 parameters that will be changed during one generation.  
   
-When the new generation doesn't get height improved, the parameters will revert to the when the best height has been achieved by far. It will output if the height is improved or not in the console.  
-Combined with the max height data, it will be stored in a csv file called `maxheight.csv`, with the robot's x, y, and z dimensions included in this name. It will be stored in the `data` directory.
+For parameter update, there is a function called `apply_adjustment`, which has 3 main parameters: `pos_lr`, `size_lr`, and `update_ratio`. Due to the change and boundary of position and size are different, they have different step tunning. The update ratio controls the portion of the 20 parameters that will be changed during one generation.  
 
+The loss function is identified as the reciprocal of the height. As the goal is to maximize the height, and neural network will try to minimize the loss function, the reciprocal of the height will meet this requirement.
+  
+When the new generation doesn't get height improved, the parameters will revert to the when the best height has been achieved by far. It will output if the height is improved or not in the console. The updating threshold is 0.02.  
+  
 To solve the problem the neural network gets stuck in the local minima and wastes many iterations on not improving, a stuck saver is introduced to this procedure.  
 After 10 generations it is not improving, the learning rate of position and size will be 5 times as it should, and have the update_ratio to a higher one.  
 But please still remember that it can still get stuck in the local minima due to the inherent feature of neural network.
+  
+Combined with the max height data, it will be stored in a csv file called `maxheight.csv`, with the robot's x, y, and z dimensions included in this name. It will be stored in the `data` directory.
