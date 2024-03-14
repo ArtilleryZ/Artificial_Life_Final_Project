@@ -28,10 +28,10 @@ There are 3 folders in the directory, and they are called:
 `img`, used for storing figures for this README  
   
 There is a block for setting the parameters of the algorithm and performance in the `main_script.py`  
-`max_iterations = 500`, control the total iteration numbers  
-`pos_lr = 0.05`, control the adjustment steps to position while having the Neural Network running    
-`size_lr = 0.1`  controls the adjustment steps to size while having the Neural Network running  
-`lr_NN = 0.005`  learning rate of the Neural Network  
+`max_iterations = 200`, control the total iteration numbers  
+`pos_lr = 0.005`, control the adjustment steps to position while having the Neural Network running    
+`size_lr = 0.01`  controls the adjustment steps to size while having the Neural Network running  
+`lr_NN = 0.0001`  learning rate of the Neural Network  
 `update_ratio = 0.3`  The portion of the parameters that will be changed during one iteration  
 
 To run the final result in `run_result.py`, please change the name of the csv file according to the latest file in the `data` folder  
@@ -39,23 +39,23 @@ It would be something like `data/maxheight_x_0.186_y_0.16_z_0.089.csv`
 
 # Robot Geometry Explanation
 As described in the overview section, it has a main body and two legs. The following is an example of what it looks like:  
-
+![Phenotype](/img/Phenotype.png)
 Since it is a robot that aims to jump height, the geometry is simplified. The robot can only have its leg in y directions, and it will be adjacent to its previous body.  
 For example, leg1 is exactly adjacent to the main body, and leg2 is exactly adjacent to the leg1.  
 
 The main body will be only randomly generated once at the beginning, and all further adjustments are limited to the legs' size and position.  
 
 The main body size has the following boundaries:  
-x_size = [0.18, 0.22]  
-y_size = [0.13, 0.17]  
-z_size = [0.08, 0.12]  
+x_size = [0.15, 0.25]  
+y_size = [0.1, 0.12]  
+z_size = [0.1, 0.12]  
 
 Similarly, the size of the legs has the following boundaries:  
 leg_x_size = [0.2, 0.6]  
 leg_y_size = [0.02, 0.15]  
 leg_z_size = [0.02, 0.15]  
 
-The position of leg1 is dependent to the main body size and the position of leg2 is dependent to the leg1 size  
+The position of leg1 is dependent on the main body size and the position of leg2 is dependent on the leg1 size  
 when generating the random start, it has the logic of:  
 temp1x = x_size + leg1_x_size_l  temp1z = z_size + leg1_z_size_l  
 leg1_x_pos_l = np.random.uniform(-temp1x, temp1x)  leg1_z_pos_l = np.random.uniform(-temp1z, temp1z)  
@@ -63,10 +63,10 @@ temp2x = leg1_x_size_l + leg2_x_size_l  temp2z = leg1_z_size_l + leg2_z_size_l
 leg2_x_pos_l = np.random.uniform(-temp2x,temp2x)  leg2_z_pos_l = np.random.uniform(-temp2z,temp2z)  
 
 Hence  
-the lower limit of `leg1_x_pos` is -(0.18+0.3), leg1_z_pos is -(0.08+0.02)  
-the upper limit of `leg1_x_pos` is (0.22+0.5),  leg1_z_pos is (0.12+0.15)  
+the lower limit of `leg1_x_pos` is -(0.15+0.2), leg1_z_pos is -(0.1+0.02)  
+the upper limit of `leg1_x_pos` is  (0.05+0.6), leg1_z_pos is  (0.1+0.15)  
 the lower limit of `leg2_x_pos` is -2*(0.2),    leg2_z_pos is -2*(0.02)  
-the upper limit of `leg2_x_pos` is 2*(0.6),     leg2_z_pos is 2*(0.15)  
+the upper limit of `leg2_x_pos` is  2*(0.6),    leg2_z_pos is  2*(0.15)  
 
 # Robot Simulation Explanation
 To reduce the complexity and remain focused on size and position, the actuators are all using a position actuator with a kp of 10.  
