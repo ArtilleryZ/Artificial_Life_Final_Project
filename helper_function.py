@@ -2,9 +2,10 @@ import numpy as np
 
 
 def data_initialization():
+    #set the random generated value for each parameters
     x_size = np.random.uniform(0.15, 0.25)
     y_size = np.random.uniform(0.1, 0.12)
-    z_size = np.random.uniform(0.1, 0.15)
+    z_size = np.random.uniform(0.1, 0.12)
 
     leg1_x_size_l = np.random.uniform(0.2, 0.6)
     leg1_y_size_l = np.random.uniform(0.02, 0.15)
@@ -41,6 +42,7 @@ def data_initialization():
     leg2_z_pos_r = np.random.uniform(-temp4z,temp4z)  # Maintain alignment
     
     
+    #Sort all into state
     state = [x_size, y_size, z_size,
             leg1_x_pos_l, leg1_z_pos_l,
             leg1_x_size_l, leg1_y_size_l, leg1_z_size_l,
@@ -57,9 +59,10 @@ def data_initialization():
     return state
 
 def parameter_boundary():
-    x_size_lower, x_size_upper = 0.18, 0.22
-    y_size_lower, y_size_upper = 0.13, 0.17
-    z_size_lower, z_size_upper = 0.08, 0.12
+    #set the boundary for each parameters
+    x_size_lower, x_size_upper = 0.15, 0.25
+    y_size_lower, y_size_upper = 0.1, 0.12
+    z_size_lower, z_size_upper = 0.1, 0.12
     
     leg_size_x_lower, leg_size_x_upper = 0.2, 0.6
     leg_size_y_lower, leg_size_y_upper = 0.02, 0.15

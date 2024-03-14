@@ -6,8 +6,12 @@ from mujoco import viewer
 import dm_control.mujoco as dm
 from xml_generator import generate_robot_xml
 
+"""
+Here please change the name for the actual csv that are going to simulate the result!
+"""
 data = np.loadtxt('data/maxheight_x_0.182_y_0.103_z_0.11.csv', delimiter=',')
 
+#Get the first and last generation's value
 height = data[:, 23]
 idx_min_height = 0
 min_height = height[idx_min_height]

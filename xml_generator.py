@@ -28,18 +28,10 @@ def generate_legs(side, main_body_sizes, leg1_x_size, leg1_y_size, leg1_z_size,
     
    
     #set the exact leg1 location, y is exact and x/z are random
-    # temp1x = x_size+leg1_x_size
-    # temp1z = z_size+leg1_z_size
-    # leg1_x_pos = np.random.uniform(-temp1x, temp1x)
-    # leg1_z_pos = np.random.uniform(-temp1z, temp1z)
     leg1_y_pos = (y_size + leg1_y_size) if side == 'left' else -(y_size + leg1_y_size)
    
     
     #set the exact leg2 location, y is exact and x/z are random
-    # temp2x = leg1_x_size+leg2_x_size
-    # temp2z = leg1_z_size+leg2_z_size
-    # leg2_x_pos = np.random.uniform(-temp2x,temp2x)  # Maintain alignment in the x direction with leg1
-    # leg2_z_pos = np.random.uniform(-temp2z,temp2z)  # Maintain alignment in the z direction with leg1
     leg2_y_pos = leg1_y_size + leg2_y_size   if side == 'left' else -(leg1_y_size + leg2_y_size)
     
     #sort them into xml
