@@ -69,7 +69,7 @@ the upper limit of `leg2_x_pos` is 2*(0.6),     leg2_z_pos is 2*(0.15)
 
 # Robot Simulation Explanation
 To reduce the complexity and remain focused on size and position, the actuators are all using a position actuator with a kp of 10.  
-Also, the control number, which is the `ctrl`, is set to 5 for all actuators to expel the effect from the jumping force.  
+Also, the control number, which is the `ctrl`, is set to 3 for all actuators to expel the effect from the jumping force.  
 In each round of simulation, it lets the robot operate a time of `800` ticks, which is enough for the robot to jump.  
   
 To retrieve the height data, a sensor is attached to the center of the robot. Since it is the z data, it is [2] to the sensordata.  
