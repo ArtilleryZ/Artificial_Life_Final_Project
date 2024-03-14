@@ -39,7 +39,6 @@ It would be something like `data/maxheight_x_0.186_y_0.16_z_0.089.csv`
 
 # Robot Geometry Explanation
 As described in the overview section, it has a main body and two legs. The following is an example of what it looks like:  
-![Phenotype](/img/Phenotype.png)
 
 Since it is a robot that aims to jump height, the geometry is simplified. The robot can only have its leg in y directions, and it will be adjacent to its previous body.  
 For example, leg1 is exactly adjacent to the main body, and leg2 is exactly adjacent to the leg1.  
