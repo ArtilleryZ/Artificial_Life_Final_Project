@@ -108,7 +108,7 @@ For parameter update, there is a function called `apply_adjustment`, which has 3
 
 The loss function is identified as the reciprocal of the height. As the goal is to maximize the height, and neural network will try to minimize the loss function, the reciprocal of the height will meet this requirement.
   
-When the new generation doesn't get height improved, the parameters will revert to the when the best height has been achieved by far. It will output if the height is improved or not in the console. The updating threshold is 0.02.  
+When the new generation doesn't get height improved, the parameters will revert to the when the best height has been achieved by far. It will output if the height is improved or not in the console. The updating threshold is 0.01.  
   
 To solve the problem the neural network gets stuck in the local minima and wastes many iterations on not improving, a stuck saver is introduced to this procedure.  
 After 10 generations it is not improving, the learning rate of position and size will be 5 times as it should, and have the update_ratio to a higher one.  
