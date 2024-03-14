@@ -1,0 +1,38 @@
+<mujoco>
+    <worldbody>
+    <light diffuse=".5 .5 .5" pos="0 0 3" dir="0 0 -1"/>
+    <geom type="plane" size="5 5 0.1" rgba=".9 0.9 0.9 1"/>
+    <body name="main body" pos="0 0 .2">
+        <joint type="free"/>
+        <geom type="box" size="0.1823618432185498 0.10347852472478945 0.10960618824937188" rgba="0 0 1 1" mass="1"/>
+        <site name="marker" pos="0 0 0" size="0.05"/>
+        <site name="robot_center" pos="0 0 0" size="0.01"/>
+        <body name="left_leg1" pos="-0.38 0.16803071267335523 -0.016055586775445555">
+            <joint name="left_leg1_joint" type="hinge" axis="0 1 0" pos="0 0 0"/>
+            <geom type="box" size="0.3458965063515525 0.06455218794856579 0.02" rgba="0 .5 0 1" mass="1"/>
+            <body name="left_leg2" pos="-0.2607771055325429 0.18717595118401498 -0.04">
+                <joint name="left_leg2_joint" type="hinge" axis="0 1 0" pos="0 0 0"/>
+                <geom type="box" size="0.5553004084121641 0.12262376323544917 0.05415659543259784" rgba="0 .6 0 1" mass="1"/>
+            </body>
+        </body>
+        <body name="right_leg1" pos="0.5466207732215939 -0.23913327762903053 -0.09338978554123224">
+            <joint name="right_leg1_joint" type="hinge" axis="0 1 0" pos="0 0 0"/>
+            <geom type="box" size="0.39580820314313025 0.13565475290424106 0.06732011548997069" rgba="0 .5 0 1" mass="1"/>
+            <body name="right_leg2" pos="0.1119876447879879 -0.26427520760513146 -0.011688695269279995">
+                <joint name="right_leg2_joint" type="hinge" axis="0 1 0" pos="0 0 0"/>
+                <geom type="box" size="0.3347364345708415 0.1286204547008904 0.12327901580387958" rgba="0 .6 0 1" mass="1"/>
+            </body>
+        </body>
+    </body>
+    </worldbody>
+    <sensor>
+        <framepos objtype="site" objname="marker"/>
+        <velocimeter name="robot_velocity" site="robot_center"/>
+    </sensor>
+    <actuator>
+        <position joint="left_leg1_joint" kp="10"/>
+        <position joint="left_leg2_joint" kp="10"/>
+        <position joint="right_leg1_joint" kp="10"/>
+        <position joint="right_leg2_joint" kp="10"/>
+    </actuator>
+</mujoco>

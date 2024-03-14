@@ -15,15 +15,15 @@ from helper_function import parameter_boundary
 
 max_iterations = 200
 
-pos_lr = 0.02
-size_lr = 0.05
-lr_NN = 0.005
+pos_lr = 0.005
+size_lr = 0.01
+lr_NN = 0.0001
 update_ratio = 0.3
 
 
-stuck_pos_lr = pos_lr * 5
-stuck_size_lr = size_lr * 5
-stuck_update_ratio = 0.75
+stuck_pos_lr = pos_lr * 8
+stuck_size_lr = size_lr * 8
+stuck_update_ratio = 0.8
 stuck_count = 0
 stuck_threshold = 10
 
@@ -112,7 +112,7 @@ def simulate_robot(num_iter, x_size, y_size, z_size, parameter):
     viewer = mujoco_viewer.MujocoViewer(m,d)
     
     for j in range(len(d.ctrl)):
-        d.ctrl[j] = 3
+        d.ctrl[j] = 5
     time.sleep(1)
     
     for i in range(800):
@@ -140,6 +140,7 @@ def simulate_robot(num_iter, x_size, y_size, z_size, parameter):
                       leg2_x_pos_r, leg2_z_pos_r,
                       leg2_x_size_r, leg2_y_size_r, leg2_z_size_r]
     
+
     max_height = [max(height)]
     
     if max_height[0] >= 4:
@@ -177,7 +178,7 @@ for itr in range(max_iterations):
         temp_pos_lr = stuck_pos_lr
         temp_size_lr = stuck_size_lr
         temp_update_ratio = stuck_update_ratio
-        print("Stuck saver activated.")
+        # print("Stuck saver activated.")
     else:
         temp_pos_lr = pos_lr
         temp_size_lr = size_lr
@@ -192,12 +193,13 @@ for itr in range(max_iterations):
     max_height = simulate_robot(itr, x_size, y_size, z_size, new)
     
     
-    if max_height[0] == -1:
+    if max_height == -1:
         print("Error: simulator broke at this generation.")
         continue
     
-    if max_height[0] > best_height:
-        print(f"Generation {itr}, Height Improved: {max_height}")
+    if max_height[0]-0.02 > best_height:
+        # print(f"Generation {itr}, Height Improved: {max_height}")
+        print(f"Generation {itr}, Height: {max_height}")
         best_height = max_height[0]
         best_parameter = copy.deepcopy(new)
         stuck_count = 0
@@ -208,11 +210,12 @@ for itr in range(max_iterations):
         optimizer.step()
     else:
         stuck_count += 1
-        print(f"Generation {itr}, No Improvement. Reverting")
+        # print(f"Generation {itr}, No Improvement. Reverting")
+        print(f"Generation {itr}, Height: {max_height}")
     
     parameter = best_parameter
         
-    final_data = [best_parameter + best_height]
+    final_data = [[x_size] + [y_size] + [z_size] + best_parameter.tolist() + [best_height]]
     
     main_filename = "data/maxheight"
 

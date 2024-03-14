@@ -2,9 +2,9 @@ import numpy as np
 
 
 def data_initialization():
-    x_size = np.random.uniform(0.18, 0.22)
-    y_size = np.random.uniform(0.13, 0.17)
-    z_size = np.random.uniform(0.08, 0.12)
+    x_size = np.random.uniform(0.15, 0.25)
+    y_size = np.random.uniform(0.1, 0.12)
+    z_size = np.random.uniform(0.1, 0.15)
 
     leg1_x_size_l = np.random.uniform(0.2, 0.6)
     leg1_y_size_l = np.random.uniform(0.02, 0.15)
