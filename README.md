@@ -1,5 +1,8 @@
 # Artificial_Life_Final_Project
-This is the repository of the final project of Artificial Life  
+This is the repository of the final project of Artificial Life
+
+Video links:
+https://youtu.be/nWwEX8BtGNs
 
 # Overview
 In this project, the goal is to maximize the jumping height of a robot with two legs.  
