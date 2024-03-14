@@ -104,4 +104,6 @@ For parameter update, there is a function called `apply_adjustment`, which has 3
 When the new generation doesn't get height improved, the parameters will revert to the when the best height has been achieved by far. It will output if the height is improved or not in the console.  
 Combined with the max height data, it will be stored in a csv file called `maxheight.csv`, with the robot's x, y, and z dimensions included in this name. It will be stored in the `data` directory.
 
-Please notice that there is a possibility that it will get stuck in the local minima and waste many iterations on not improving.
+To solve the problem the neural network gets stuck in the local minima and wastes many iterations on not improving, a stuck saver is introduced to this procedure.  
+After 10 generations it is not improving, the learning rate of position and size will be 5 times as it should, and have the update_ratio to a higher one.  
+But please still remember that it can still get stuck in the local minima due to the inherent feature of neural network.
