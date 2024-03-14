@@ -21,7 +21,7 @@ There are 4 main scripts in the directory, and they are called:
 `helper_function.py`, which is for robot parameter initialization.  
 `xml_generator.py`, which is for generating the xml file used for Mujoco to run.  
 
-There are 3 folders in the directory, and they are called:
+There are 4 folders in the directory, and they are called:  
 `data`, used for storing the csv file output  
 `xml`, used for storing the xml being used  
 `sample`, used for sample and future output for `run_result.py`  
@@ -46,14 +46,14 @@ For example, leg1 is exactly adjacent to the main body, and leg2 is exactly adja
 The main body will be only randomly generated once at the beginning, and all further adjustments are limited to the legs' size and position.  
 
 The main body size has the following boundaries:  
-x_size = [0.15, 0.25]  
-y_size = [0.1, 0.12]  
-z_size = [0.1, 0.12]  
+`x_size` = [0.15, 0.25]  
+`y_size` = [0.1, 0.12]  
+`z_size` = [0.1, 0.12]  
 
 Similarly, the size of the legs has the following boundaries:  
-leg_x_size = [0.2, 0.6]  
-leg_y_size = [0.02, 0.15]  
-leg_z_size = [0.02, 0.15]  
+`leg_x_size` = [0.2, 0.6]  
+`leg_y_size` = [0.02, 0.15]  
+`leg_z_size` = [0.02, 0.15]  
 
 The position of leg1 is dependent on the main body size and the position of leg2 is dependent on the leg1 size  
 when generating the random start, it has the logic of:  
@@ -63,10 +63,10 @@ temp2x = leg1_x_size_l + leg2_x_size_l  temp2z = leg1_z_size_l + leg2_z_size_l
 leg2_x_pos_l = np.random.uniform(-temp2x,temp2x)  leg2_z_pos_l = np.random.uniform(-temp2z,temp2z)  
 
 Hence  
-the lower limit of `leg1_x_pos` is -(0.15+0.2), leg1_z_pos is -(0.1+0.02)  
-the upper limit of `leg1_x_pos` is  (0.05+0.6), leg1_z_pos is  (0.1+0.15)  
-the lower limit of `leg2_x_pos` is -2*(0.2),    leg2_z_pos is -2*(0.02)  
-the upper limit of `leg2_x_pos` is  2*(0.6),    leg2_z_pos is  2*(0.15)  
+the lower limit of `leg1_x_pos` is -(0.15+0.2), `leg1_z_pos` is -(0.1+0.02)  
+the upper limit of `leg1_x_pos` is  (0.05+0.6), `leg1_z_pos` is  (0.1+0.15)  
+the lower limit of `leg2_x_pos` is -2*(0.2),    `leg2_z_pos` is -2*(0.02)  
+the upper limit of `leg2_x_pos` is  2*(0.6),    `leg2_z_pos` is  2*(0.15)  
 
 # Robot Simulation Explanation
 To reduce the complexity and remain focused on size and position, the actuators are all using a position actuator with a kp of 10.  
