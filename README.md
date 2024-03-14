@@ -24,7 +24,7 @@ There are 3 folders in the directory, and they are called:
 `data`, used for storing the csv file output  
 `xml`, used for storing the xml being used  
 `temp`, used for temp output for `run_result.py`  
-`figs`, used for storing figures for this README  
+`img`, used for storing figures for this README  
   
 There is a block for setting the parameters of the algorithm and performance in the `main_script.py`  
 `max_iterations = 500`, control the total iteration numbers  
